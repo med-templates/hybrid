@@ -1,0 +1,53 @@
+/**
+ * @file  tool/_num.less
+ * @author  newset (luojieyy@gmail.com)
+ * @copyright  2017 | Medlinker
+ * @date  2017-03-07
+ */
+@import "./flex.less";
+
+.numctrl () {
+	.up:after, .up:before, .down:before {
+	      display: inline-block;
+	      content: ' ';
+	      position: absolute;
+	      background-color: #ddd;
+	      width: 16/@base;
+	      height: 2/@base;
+	      top: 50%;
+	      left: 50%;
+	      margin-left: -8/@base;
+	}
+
+	.up:after{
+	    .transform(rotate(90deg));
+	}
+}
+
+.numcomp () {
+  .flexbox();
+  .numctrl();
+  border: 1px solid #E2E7F1;
+  border-radius: 4/@base;
+  height: 38/@base;
+  font-size: 24/@base;
+  box-sizing: content-box;
+
+  .number, .number-op {
+      display: inline-block;
+      text-align: center;
+      height: 40/@base;
+      line-height: 40/@base;
+      vertical-align: middle;
+  }
+
+  .number {
+      width: 60/@base;
+      border: 1px solid #E2E7F1;
+      border-width: 0px 1px;
+  }
+  .number-op {
+      width: 40/@base;
+      position: relative;
+  }
+}

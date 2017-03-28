@@ -1,0 +1,63 @@
+/**
+ * @file  tool/_placehold.less
+ * @author  newset (luojieyy@gmail.com)
+ * @copyright  2017 | Medlinker
+ * @date  2017-03-07
+ */
+@import "../var.less";
+@import "../tool/flex.less";
+@import "../tool/clearfix.less";
+
+@width: 200/@base;
+@height: 200/@base;
+@margin: 20/@base;
+
+.placehold-round () {
+	.placehold {
+
+	}
+}
+
+.placehold-square (@item-scale: 1, @line-scale: 1) {
+	.placehold {
+		.ph-item {
+			background-color: #eee;
+			height: @item-scale * 30/@base;
+		}
+
+		.ph-row {
+			.clearfix();
+			.flexbox();
+			margin-bottom: 20/@base;
+		}
+
+		.ph-thumb {
+			width: @width * @item-scale;
+			height: @height * @item-scale;
+		}
+
+		.ph-info {
+			margin-left: @margin;
+			.flexbox();
+			.flex-direction(column);
+			.justify-content(space-between);
+			.flex(1);
+		}
+
+		.ph-text {
+
+			&.half {
+				width: 50%;
+			}
+		}
+	}
+}
+
+.js-data () {
+	.js-no-more {
+	    color: #ccc;
+	    text-align: center;
+	    line-height: 100/@base;
+		height: 100/@base;
+	}
+}

@@ -1,0 +1,36 @@
+/**
+ *   @section css模拟关闭按钮×
+ *   @author zhangmingrui
+ *   参数说明:
+ *      @border-width: 线条粗度
+ *      @len: 线条长度
+ *      @size: 关闭按钮宽度（宽度==高度）
+ *      @color: 线条颜色
+ *   使用方法：
+ *      .myclass{
+ *          .close(...);
+ *          //定位微调
+ *      }
+ *      <div class="myclass"></div>
+ * }
+ */
+.close(@border-width:2rem,@len:36rem,@size:25rem,@color:#676767){
+    width: @size / 40rem;
+    height: @size / 40rem;
+    position: relative;
+    &:before,&:after {
+        content: '';
+        position: absolute;
+        width: @border-width / 40rem;
+        height: @len / 40rem;
+        background-color: @color;
+        top: 0px;
+        left: @size / 80rem;
+    }
+    &:before {
+        .transform(rotate(45deg));
+    }
+    &:after {
+        .transform(rotate(-45deg));
+    }
+}

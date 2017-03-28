@@ -1,0 +1,647 @@
+/**
+  * 公用css
+  */
+/**
+ *  包含tool工具库和var变量配置，合在一起，便于引用
+ *  @version 1.0
+ *  @author zhangmingrui | 592044573@qq.com
+ *  @date created 2016-08-08
+ */
+/**
+ *  基本变量配置
+ *  @version 1.0
+ *  @author zhangmingrui | 592044573@qq.com
+ *  @date created 2016-08-08
+ */
+/******移植4.0视频简介*****/
+/**
+ *  实用工具库，包括：tool,layouttool文件夹中的所有实用less方法
+ *  @version 1.0
+ *  @author zhangmingrui | 592044573@qq.com
+ *  @date created 2016-08-08
+ */
+/**
+ *   @section css模拟上下箭头
+ *   @author zhangmingrui
+ *   参数说明:
+ *      width: 箭头宽度
+ *      height: 箭头高度
+ *      color: 箭头颜色
+ *      border-width: 箭头宽度
+ *   使用方法：
+ *      .myclass {
+ *          .g-arrow();
+ *      }
+ *      <i class="myclass up"></i> 向上箭头
+ *      <i class="myclass down"></i> 向下箭头
+ *      <i class="myclass right"></i> 向右箭头
+ *      <i class="myclass left"></i> 向左箭头
+ */
+/**
+ *  浮动相关的方法
+ *  @version 1.0
+ *  @author zhangmingrui | 592044573@qq.com
+ *  @date created 2015-12-02
+ */
+/* @section 清除浮动*/
+/**
+ *  flex布局相关的方法，兼容各种浏览器的私有属性。
+ *    flex布局现在某些安卓机上的浏览器不支持
+ *  @version 1.0
+ *  @author zhangmingrui | 592044573@qq.com
+ *  @date created 2015-12-02
+ */
+/***伸缩容器属性***/
+/*设置容器为flex伸缩布局*/
+/*主轴方向*/
+/*主轴对齐*/
+/*侧轴对齐，对齐伸缩项目*/
+/*伸缩行换行*/
+/*对齐伸缩行*/
+/*速记形式*/
+/***设置伸缩项目属性***/
+/*设置伸缩项目的顺序*/
+/*指定伸缩项目如何分配主轴上的剩余空间*/
+/*侧轴对齐，对齐伸缩项目*/
+/**
+ *  css3渐变相关方法
+ *  @version 1.0
+ *  @author zhangmingrui | 592044573@qq.com
+ *  @date created 2015-12-02
+ */
+/**
+ * @section 设置元素背景——一般线性渐变
+ * @angel 角度
+ * @reset 自定义扩展颜色配置参数
+ */
+/**
+ *  文字换行折行等相关的方法
+ *  @version 1.0
+ *  @author zhangmingrui | 592044573@qq.com
+ *  @date created 2015-12-02
+ */
+/*不折行*/
+/*折行*/
+/*多行超出显示省略号——css3——webkit内核支持*/
+/*单行超出显示省略号——css3*/
+/**
+ *   @section 针对某些情况下，行高不生效。
+ *   原理：决定行高的是行内最高的元素的值。
+ */
+/**
+ *   给placeholder设置颜色
+ */
+/**
+ *   @section shadow阴影方法
+ *   @author zhangmingrui | 592044573@qq.com
+ *   @date created 2016-05-30
+ *   参数说明：psd中的混合投影参数
+ *      @blur 距离
+ *      @spread 扩展
+ *      @size 大小
+ *      @angle 角度     小数
+ *      @color 结合设置的不透明度用rgba格式表示
+ *   @example .shadow(12rem,0.1,40rem,90,rgba(101,141,254,0.4));
+ */
+/**
+ *   @section css模拟对勾√
+ *   @author zhangmingrui
+ *   参数说明:
+ *      border-width: 对勾border宽度
+ *      color: 对勾颜色
+ *      width: 对勾长边的长度
+ *      height: 对勾短边的长度
+ *   使用方法：
+ *      .myclass{
+ *          .tick(...);
+ *      }
+ *      <i class="myclass"></i>
+ * }
+ */
+/**
+ *  css3-transform动画
+ *  @version 1.0
+ *  @author zhangmingrui | 592044573@qq.com
+ *  @date created 2015-12-02
+ */
+/**
+ *   @section 所有属性值都自己设置
+ */
+/**
+ *  css3-transition动画
+ *  @version 1.0
+ *  @author zhangmingrui | 592044573@qq.com
+ *  @date created 2015-12-02
+ */
+/**
+ *   @section 所有属性值都自己设置
+ */
+/**
+ *   @section css模拟关闭按钮×
+ *   @author zhangmingrui
+ *   参数说明:
+ *      @border-width: 线条粗度
+ *      @len: 线条长度
+ *      @size: 关闭按钮宽度（宽度==高度）
+ *      @color: 线条颜色
+ *   使用方法：
+ *      .myclass{
+ *          .close(...);
+ *          //定位微调
+ *      }
+ *      <div class="myclass"></div>
+ * }
+ */
+body {
+  background-color: #fff;
+}
+.hide {
+  display: none;
+}
+.cm-view {
+  height: 100%;
+}
+.cm-view .gray-bg {
+  min-height: 100%;
+  background: #f9fafc;
+}
+.cm-view .white-bg {
+  min-height: 100%;
+  background: #FFFFFF;
+}
+.cm-view .med-ios,
+.cm-view .med-android {
+  height: 100%;
+}
+/**
+ *  @section 异步io请求状态提示
+ */
+.g-msg-io {
+  font-size: 0.7rem;
+  line-height: 1.5rem;
+  height: auto;
+  text-align: center;
+}
+.g-msg-io.error {
+  color: #ff0000;
+}
+.g-msg-io.error a {
+  color: #007eff;
+}
+.g-msg-io.empty {
+  color: #b3b3b3;
+}
+.g-msg-io.loading {
+  color: #b3b3b3;
+  line-height: 1.5rem !important;
+  height: auto !important;
+  display: block;
+}
+/**
+ * @section 左右留白统一
+ */
+.g-layout-lr-padding {
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+}
+/**
+ * @section 中部底部布局 - 底部是按钮
+ */
+.g-layout-bf-btn {
+  height: 100%;
+  position: relative;
+}
+.g-layout-bf-btn > .body,
+.g-layout-bf-btn > .footer {
+  left: 0;
+  right: 0;
+  position: absolute;
+}
+.g-layout-bf-btn > .body {
+  overflow-y: auto;
+  top: 0;
+  bottom: 2.5rem;
+}
+.g-layout-bf-btn > .footer {
+  bottom: 0;
+  height: 2.5rem;
+}
+.g-layout-bf-btn > .footer button {
+  line-height: 2.5rem;
+  color: #fff;
+  font-size: 0.8rem;
+  border: none;
+  padding: 0;
+  background-color: #0064ff;
+  outline: none;
+}
+.g-layout-bf-btn > .footer.single button {
+  width: 100%;
+}
+.g-layout-bf-btn > .footer.double:before,
+.g-layout-bf-btn > .footer.double:after {
+  content: " ";
+  display: table;
+}
+.g-layout-bf-btn > .footer.double:after {
+  clear: both;
+}
+.g-layout-bf-btn > .footer.double button {
+  width: 50%;
+  float: left;
+}
+.g-layout-bf-btn > .footer.double:after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: #4d92ff;
+}
+/**
+ * 几种箭头
+ */
+.icon-chevron-up {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+}
+.icon-chevron-up:after {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  width: 8px;
+  height: 8px;
+  position: relative;
+  left: 3px;
+  top: 4px;
+  border-left: 0.05rem solid #848ca8;
+  border-bottom: 0.05rem solid #848ca8;
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+  -webkit-transform: translate(0, -50%) rotate(135deg);
+  -webkit-transition: -webkit-transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+}
+.icon-chevron-down {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+}
+.icon-chevron-down:after {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  width: 8px;
+  height: 8px;
+  position: relative;
+  left: 4px;
+  border-left: 0.05rem solid #848ca8;
+  border-bottom: 0.05rem solid #848ca8;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  -webkit-transform: translate(0, -50%) rotate(-45deg);
+  -webkit-transition: -webkit-transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+}
+.icon-chevron-left {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+}
+.icon-chevron-left:after {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  width: 8px;
+  height: 8px;
+  position: relative;
+  top: 2px;
+  left: 2px;
+  border-left: 0.05rem solid #848ca8;
+  border-bottom: 0.05rem solid #848ca8;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  -webkit-transform: translate(0, -50%) rotate(45deg);
+  -webkit-transition: -webkit-transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+}
+.icon-chevron-right {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+}
+.icon-chevron-right:after {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  width: 8px;
+  height: 8px;
+  position: relative;
+  left: 2px;
+  top: 4px;
+  border-left: 0.05rem solid #848ca8;
+  border-bottom: 0.05rem solid #848ca8;
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  -webkit-transform: translate(0, -50%) rotate(-135deg);
+  -webkit-transition: -webkit-transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+}
+/*
+ * @section 医生机构页-带箭头的列表布局
+ */
+.g-doctor-list-arrow {
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+}
+.g-doctor-list-arrow .header {
+  font-size: 0.75rem;
+  line-height: 2.9rem;
+  color: #454553;
+  position: relative;
+}
+.g-doctor-list-arrow .header:after {
+  content: '';
+  display: inline-block;
+  width: 0.4rem;
+  height: 0.4rem;
+  border: 1px solid #848ca8;
+  border-bottom: none;
+  border-left: none;
+  vertical-align: middle;
+  transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  /* IE 9 */
+  -webkit-transform: rotate(45deg);
+  /* Safari and Chrome */
+  position: absolute;
+  right: 0;
+  top: 50%;
+  margin-top: -0.25rem;
+}
+.g-doctor-list-arrow .header:after.up {
+  transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  /* IE 9 */
+  -webkit-transform: rotate(-45deg);
+  /* Safari and Chrome */
+}
+.g-doctor-list-arrow .header:after.down {
+  transform: rotate(135deg);
+  -ms-transform: rotate(135deg);
+  /* IE 9 */
+  -webkit-transform: rotate(135deg);
+  /* Safari and Chrome */
+}
+.g-doctor-list-arrow .header:after.right {
+  transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  /* IE 9 */
+  -webkit-transform: rotate(45deg);
+  /* Safari and Chrome */
+}
+.g-doctor-list-arrow .header:after.left {
+  transform: rotate(-135deg);
+  -ms-transform: rotate(-135deg);
+  /* IE 9 */
+  -webkit-transform: rotate(-135deg);
+  /* Safari and Chrome */
+}
+.g-doctor-list-arrow.noarrow .header:after {
+  display: none;
+}
+/**
+ * @section 医生、机构、经纪人区块
+ */
+.g-doctor-section {
+  background-color: #fff;
+  margin-bottom: 0.6rem;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+}
+.w-yen {
+  color: #f35656;
+  font-size: .6rem;
+  font-weight: bold;
+  margin-top: .7rem;
+  height: 1.15rem;
+  line-height: 1.15rem;
+  vertical-align: 0.05rem;
+}
+.w-money {
+  color: #f35656;
+  font-size: 1.1rem;
+  font-family: DIN Condensed,microsoft yahei;
+}
+/**
+ *   @section 个人主页视频播放按钮动画
+ */
+@-webkit-keyframes personal-video-icon {
+  0% {
+    -webkit-transform: rotate(0deg);
+    opacity: 1;
+  }
+  30% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    opacity: 1;
+  }
+}
+@-moz-keyframes personal-video-icon {
+  0% {
+    -moz-transform: rotate(0deg);
+    opacity: 1;
+  }
+  30% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    -moz-transform: rotate(360deg);
+    opacity: 1;
+  }
+}
+@-ms-keyframes personal-video-icon {
+  0% {
+    -ms-transform: rotate(0deg);
+    opacity: 1;
+  }
+  30% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    -ms-transform: rotate(360deg);
+    opacity: 1;
+  }
+}
+@-o-keyframes personal-video-icon {
+  0% {
+    -o-transform: rotate(0deg);
+    opacity: 1;
+  }
+  30% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    -o-transform: rotate(360deg);
+    opacity: 1;
+  }
+}
+@keyframes personal-video-icon {
+  0% {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+  30% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(360deg);
+    opacity: 1;
+  }
+}
+.no-data-wrapper {
+  min-height: 2.5rem;
+}
+.no-data,
+.no-more-data,
+.loading {
+  display: none;
+  line-height: 2.5rem !important;
+  height: 2.5rem !important;
+  text-align: center;
+  font-size: 0.7rem;
+  color: #ccc;
+}
+.no-data > img,
+.no-more-data > img,
+.loading > img {
+  margin-top: 5rem;
+  width: 2.35rem;
+}
+.placeholder-wrapper {
+  margin-right: 0.25rem;
+  overflow: hidden;
+}
+.placeholder-item {
+  height: 0.75rem;
+  margin-bottom: 0.375rem;
+  background-color: #eee;
+  box-sizing: border-box;
+}
+.placeholder-item.width-100 {
+  width: 100%;
+}
+.placeholder-item.width-10 {
+  width: 10%;
+}
+.placeholder-item.width-20 {
+  width: 20%;
+}
+.placeholder-item.width-30 {
+  width: 30%;
+}
+.placeholder-item.width-40 {
+  width: 40%;
+}
+.placeholder-item.width-50 {
+  width: 50%;
+}
+.placeholder-item.width-60 {
+  width: 60%;
+}
+.placeholder-item.width-70 {
+  width: 70%;
+}
+.placeholder-item.width-80 {
+  width: 80%;
+}
+.placeholder-item.width-90 {
+  width: 90%;
+}
+.placeholder-item.margin-left-84 {
+  margin-left: 2.1rem;
+}
+.placeholder-item.margin-left-60 {
+  margin-left: 1.5rem;
+}
+.placeholder-item.margin-top-40 {
+  margin-top: 1rem;
+}
+.placeholder-item.margin-top-20 {
+  margin-top: 0.5rem;
+}
+.placeholder-item.margin-top-15 {
+  margin-top: 0.375rem;
+}
+.placeholder-item.margin-top-10 {
+  margin-top: 0.25rem;
+}
+.placeholder-item.margin-top-5 {
+  margin-top: 0.125rem;
+}
+.placeholder-item-avatar {
+  display: block;
+  float: left;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background-color: #eee;
+}
+.placeholder-item-avatar.margin-top-23 {
+  margin-top: 0.575rem;
+}
+.placeholder-item-avatar.size-36 {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+/*******页面适配*********/
+/****问诊 我的患者 公用empty样式****/
+.w-empty-wrapper {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  box-sizing: border-box;
+  width: 6.25rem;
+  height: 5.85rem;
+  margin-top: -2.925rem;
+  margin-left: -3.125rem;
+  display: block;
+  font-size: 0;
+  text-align: center;
+}
+.w-empty-wrapper .w-empty-word {
+  display: inline-block;
+  width: 100%;
+  color: #a8afc3;
+  font-size: 0.6rem;
+  text-align: center;
+  line-height: 3;
+}
+.w-empty-wrapper .w-empty-img {
+  width: 2.375rem;
+  height: 2.85rem;
+  background: url('static/img/empty.png') 0 0 no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+}
