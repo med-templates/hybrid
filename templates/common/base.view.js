@@ -3,10 +3,8 @@ define([
     'Model',
     'Store',
     'UITabbar',
-    'cUser',
-    'common/publich5',
-    'common/log'
-], function(AbstractView, Model, Store, UITabbar, cUser, publich5, log) {
+    'cUser'
+], function(AbstractView, Model, Store, UITabbar, cUser) {
 
     return _.inherit(AbstractView, {
 
@@ -26,9 +24,6 @@ define([
 
             this.needHeaderRefresh = false;
 
-            // 获取定位
-            this.getCurPos();
-
             this.logPageName = '';
 
             // 是否是在医联app内
@@ -36,18 +31,6 @@ define([
             // this.isMedlinkerApp = 1;
 
             this.deviceNum = '';
-        },
-
-        getCurPos: function() {
-            var scope = this;
-            publich5.getCurrentGeolocationPosition(function(pos) {
-                scope.pos = pos;
-            }, function() {
-                scope.pos = {
-                    lat: '',
-                    lng: ''
-                };
-            });
         },
 
         // 给请求参数添加地理位置
@@ -75,7 +58,7 @@ define([
 
             var scope = this;
             var opt = {
-                title: this.headerTitle || '医联通'
+                title: this.headerTitle || '医联'
             };
 
             opt.right = [];
@@ -331,7 +314,6 @@ define([
             if (this.isMedlinkerApp) {
                 return;
             }
-            log.add(source, target);
         },
 
         // 获取设备号
