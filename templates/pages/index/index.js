@@ -4,7 +4,7 @@
  * @date  2017-03-28
  */
 define( [
-	'BaseView',
+	'BindView',
 	'Model',
 	'text!./index.html',
     'text!StylePath/common.css',
@@ -13,7 +13,7 @@ define( [
 	BaseView,
 	Model,
 	template,
-	commonstyle
+	commonstyle,
 	style
 ) {
 	// 变量初始化

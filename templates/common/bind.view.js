@@ -1,94 +1,39 @@
+/**
+ * @file  common/bind.view.js
+ * @author  newset (luojieyy@gmail.com)
+ * @copyright  2017 | Medlinker
+ * @date  2017-04-25
+ */
+
 define([
     'AbstractView',
-    'Model',
-    'Store',
-    'UITabbar',
     'cUser'
-], function(AbstractView, Model, Store, UITabbar, cUser) {
-
+], function(AbstractView, cUser) {
     return _.inherit(AbstractView, {
-
-        propertys: function($super) {
-            $super();
-            this.imgLazyLoad = true;
-            //该页面是否需要登录鉴权
-            this.needLogin = false;
-            //登录后会返回用户数据
-            this.USERINFO = {};
-            this.userInfoM = Model.UserInfo.getInstance();
+    	propertys: function($super) {
+    		$super();
 
             this.project = 'hybrid';
-
-            //解决Android中title设置不生效问题
+    		//解决Android中title设置不生效问题
             this.setWeixinHeader = true;
-
-            this.needHeaderRefresh = false;
-
-            this.logPageName = '';
-
-            // 是否是在医联app内
-            this.isMedlinkerApp = _.med.env.menlinker;
-            // this.isMedlinkerApp = 1;
-
-            this.deviceNum = '';
-        },
-
-        // 给请求参数添加地理位置
-        setParamLatLng: function(param) {
-            if (!param) {
-                param = {};
-            }
-
-            if (this.pos) {
-                param.lat = this.pos.lat;
-                param.lng = this.pos.lng;
-            } else {
-                param.lat = '';
-                param.lng = '';
-            }
-
-            return param;
-        },
-
-        initHeader: function() {
+    	},
+    	initHeader: function() {
             if (this.noHeader) {
                 this.header.hide();
                 return;
             }
-
             var scope = this;
-            var opt = {
-                title: this.headerTitle || '医联'
-            };
+            var opt = { title: this.headerTitle || '医联' };
 
             opt.right = [];
 
             //native处理逻辑
             if (this.headerShare) {
-                opt.right.push({
-                    tagname: 'share',
-                    value: '分享'
-                })
+                opt.right.push({ tagname: 'share', value: '分享' })
             }
 
             this.header.set(opt);
             this.header.show();
-
-        },
-
-        //当用户重新登录,或者退出登录时,摧毁用户信息
-        destoryUserInfo: function() {
-
-        },
-
-        setTitle: function(titleName) {
-            //document.title=titleName;
-            //// hack在微信等webview中无法修改document.title的情况
-            //var $iframe = $('<iframe src="/favicon.ico"></iframe>').on('load', function() {
-            //    setTimeout(function() {
-            //        $iframe.off('load').remove()
-            //    }, 0)
-            //}).appendTo($('body'));
         },
         _show: function(noEvent) {
             if (noEvent) {
@@ -96,7 +41,6 @@ define([
                 this.$el.show();
                 return;
             }
-
             this.trigger('onPreShow');
 
             window.scrollTo(0, 0);
@@ -104,8 +48,6 @@ define([
             this.status = 'show';
 
             this.bindEvents();
-
-            // this.initHeader();
             this.trigger('onShow');
         },
         show: function(noEvent) {
@@ -149,14 +91,7 @@ define([
                     }
                 });
             }
-
         },
-
-        //注册native的
-        onWebviewShow: function() {
-
-        },
-
         addNativeRefreshEvent: function() {
             if (!_.isHybrid() || !this.needHeaderRefresh) return;
             var scope = this;
@@ -179,13 +114,6 @@ define([
                 }
             });
         },
-
-        hide: function($super, noEvent) {
-            $super();
-            cUser.closeLogin && cUser.closeLogin();
-            APP.tabbar && APP.tabbar.hide();
-        },
-
         viewImgLazyLoad: function() {
             if (!this.imgLazyLoad) return;
 
@@ -204,44 +132,6 @@ define([
             }
 
         },
-
-        hasLogin: function(onHasLogin, onLoginSucess) {
-            var scope = this;
-
-            if (!_.isEmpty(this.USERINFO)) {
-                if (_.isFunction(onHasLogin)) {
-                    onHasLogin();
-                }
-            }
-
-            this.showLoading();
-            if (_.isFunction(onLoginSucess)) {
-                this.userInfoM.onLoginSuccess = function() {
-                    onLoginSucess();
-
-                };
-            } else if (_.isFunction(onHasLogin)) {
-                this.userInfoM.onLoginSuccess = function() {
-                    onHasLogin();
-                };
-            }
-
-            this.userInfoM.execute(function(data) {
-                scope.USERINFO = data;
-                if (_.isFunction(onHasLogin)) {
-                    onHasLogin();
-                }
-                scope.hideLoading();
-            });
-        },
-
-        // 打点
-        addLog: function(source, target) {
-            if (this.isMedlinkerApp) {
-                return;
-            }
-        },
-
         // 获取设备号
         getDeviceNum: function() {
             var scope = this;
@@ -257,22 +147,6 @@ define([
                 }
             });
         },
-
-        // 支付订单
-        payOrder: function(payUrl) {
-            if (_.med.env.ylt && !_.med.env.medlinker) {
-                payUrl += '&redirectpage=webh5';
-                this.jump2(payUrl);
-            } else {
-                _.requestHybrid({
-                    tagname: 'oldpay',
-                    param: {
-                        orderurl: payUrl
-                    }
-                });
-            }
-        },
-
         openLink: function(url) {
             _.requestHybrid({
                 tagname: 'openLink',
@@ -281,7 +155,6 @@ define([
                 }
             });
         },
-
         _loadImg: function(img, dataSrc) {
             $(new Image()).on('load', function() {
                 img.attr('src', dataSrc);

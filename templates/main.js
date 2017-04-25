@@ -5,7 +5,7 @@
     var templateRoot = 'templates';
     var hybridInfo = _.getHybridInfo();
 
-    var version = 201704011722;
+    var version = 201704251722;
     require.config({
         shim: {
             qiniu: {
@@ -18,9 +18,10 @@
         },
         urlArgs: 'version=' + version,
         paths: {
-
             //业务频道基类
             BaseView: project + 'common/base.view',
+            BindView: project + 'common/bind.view',
+            ListView: project + 'common/list.view',
 
             CommonPath: project + 'common',
             PagePath: project + 'pages',
@@ -34,12 +35,8 @@
             CommonUI: project + 'common/ui',
             CommonData: project + 'common/data',
 
-            DlistView: project + 'common/dlistview',
-
             CommonTpl: project + 'common/tpl',
-
-            selectDate: project + 'common/ui/selectDate'
-
+            Vue: project + "common/lib/vue.min"
         }
     });
 
@@ -51,6 +48,8 @@
     } else {
         modules.push('UIHeader');
     }
+
+    modules.push("Vue");
 
     //t为用户期待在该时间后的用户，全部清理缓存再使用
     function initCacheSet(AbstractStore, t) {
@@ -96,14 +95,6 @@
                 $('body').addClass('baidubox');
             }, 20);
         }
-
-        // // 关闭增量包
-        // _.requestHybrid({
-        //     tagname: 'switchcache',
-        //     param: {
-        //        open: false
-        //     }
-        // });
     });
 
 })();
