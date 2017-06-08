@@ -1,0 +1,20 @@
+<transition name="popup-fade">
+    <div class="popup m-popup" style="position: fixed;
+    top: 0px;
+    height: 100%;
+    width: 100%;" v-show="visible">
+        <div class="cm-overlay" @click="hide"></div>
+        <div class="modal-content" style="position: fixed;">
+            <section class="cm-modal cm-modal--alert">
+                <div class="cm-modal-bd">
+                    <slot></slot>
+                </div>
+                <slot name="footer" v-if="$slots.footer"></slot>
+                <div class="cm-actions" v-if="!$slots.footer">
+                    <span class="cm-btns-cancel cm-actions-btn" @click="hide">取消</span>
+                    <span class="cm-btns-ok cm-actions-btn" @click="submit">确定</span>
+                </div>
+            </section>
+        </div>
+    </div>
+</transition>

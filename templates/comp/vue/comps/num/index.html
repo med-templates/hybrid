@@ -1,0 +1,5 @@
+<div class="item-checked numctrl">
+    <div @click="subtract()" class="number-op down js-count" v-if="value"></div>
+    <div class="number" v-if="value">{{value}}</div>
+    <div @click="add()" class="number-op up js-count"></div>
+</div>

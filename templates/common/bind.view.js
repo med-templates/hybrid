@@ -6,159 +6,78 @@
  */
 
 define([
-    'AbstractView',
-    'cUser'
-], function(AbstractView, cUser) {
-    return _.inherit(AbstractView, {
-    	propertys: function($super) {
-    		$super();
+    'BaseView',
+    'Model',
+    'Store',
+    'CompPath/lib/vue.min',
+    'CompPath/vue/plugin'
+], function(BaseView, Model, Store, Vue, Plugin) {
+    var compHookCls = 'vue-comp-hook';
 
-            this.project = 'hybrid';
-    		//解决Android中title设置不生效问题
-            this.setWeixinHeader = true;
-    	},
-    	initHeader: function() {
-            if (this.noHeader) {
-                this.header.hide();
-                return;
-            }
-            var scope = this;
-            var opt = { title: this.headerTitle || '医联' };
+    Vue.prototype.$model = Model;
+    Vue.prototype.$store = Store;
 
-            opt.right = [];
+    Vue.use(Plugin);
 
-            //native处理逻辑
-            if (this.headerShare) {
-                opt.right.push({ tagname: 'share', value: '分享' })
-            }
+    var vueHooks = ['beforeCreate', 'created', 'mounting', 'mounted', 'beforeDestroy', 'destroyed', "activated", "deactivated"];
+    var vueProps = ['template', 'data', 'components', 'methods', 'props', 'computed', 'filters', 'validations', 'directives'];
 
-            this.header.set(opt);
-            this.header.show();
+    var BindView = _.inherit(BaseView, {
+        $view: null,
+        // overrider render, create, refresh
+        render: function() {
+            return "<div class='" + compHookCls + "'></div>"; //this.template;
         },
-        _show: function(noEvent) {
-            if (noEvent) {
-                this.status = 'show';
-                this.$el.show();
-                return;
-            }
-            this.trigger('onPreShow');
-
-            window.scrollTo(0, 0);
-            this.$el.show();
-            this.status = 'show';
-
-            this.bindEvents();
-            this.trigger('onShow');
+        _show: function($super, noEvent) {
+            $super(noEvent);
+            this.$init();
         },
-        show: function(noEvent) {
-            var scope = this;
-            this.initHeader();
-
-            //如果需要登录得先走登录逻辑校验
-            if (this.needLogin) {
-                this.showLoading();
-                this.userInfoM.execute(function(data) {
-                    scope.USERINFO = data;
-                    scope._show(noEvent);
-                });
-
-            } else {
-                this._show(noEvent);
+        /**
+         * 用于挂载 vue实例
+         * @param  {object} 当前baseview 实例
+         * @return {void}
+         */
+        $init: function(target) {
+            if (!target) {
+                return
             }
-            //做图片延迟加载
-            this.viewImgLazyLoad();
 
-            //native下拉刷新逻辑
-            this.addNativeRefreshEvent();
+            var ctx = this;
+            ctx.el = target.$("." + compHookCls)[0];
+            ctx.template = ctx.template || target.template;
+            beforeCreate = ctx.beforeCreate;
+            ctx.beforeCreate = function() {
+                this.$ctx = target;
+                beforeCreate && beforeCreate.call(this);
+            }
+            target.$view = new Vue(ctx);
+        },
+        addEvent: function($super) {
+            $super();
 
-            // 图片加载失败
-            this.$('img').error(function() {
-                var realSrc = $(this).attr('data-real-src', $(this).attr('src'));
-
-                if ($(this).hasClass('avatar')) {
-                    $(this).attr('src', "static/img/common/avatar.png");
-                } else {
-                    $(this).attr('src', "static/img/common/placeholder.png");
-                }
+            this.on("onHide", function() {
+                this.$view.$destroy();
             });
-
-            if (_.isHybrid()) {
-                //有些页面需要注册页面加载事件
-                _.requestHybrid({
-                    tagname: 'onwebviewshow',
-                    callback: function() {
-                        scope.onWebviewShow();
-                    }
-                });
-            }
-        },
-        addNativeRefreshEvent: function() {
-            if (!_.isHybrid() || !this.needHeaderRefresh) return;
-            var scope = this;
-
-            _.requestHybrid({
-                tagname: 'headerrefresh',
-                param: {
-                    title: '',
-                    slideText: '下拉刷新...', // 下拉提示文字（第二行）
-                    loosenText: '松手刷新...', // 松手提示文字（第二行）
-                    refreshText: '刷新中...' // 刷新中提示文字（第二行）
-                },
-                callback: function(data) {
-
-                    if (_.isFunction(scope.refresh)) {
-                        scope.refresh();
-                    } else {
-                        location.reload();
-                    }
-                }
-            });
-        },
-        viewImgLazyLoad: function() {
-            if (!this.imgLazyLoad) return;
-
-            var imgs = this.$('img');
-            var img;
-            var dataSrc;
-            var src;
-            var tmp = {};
-
-            for (var i = 0, len = imgs.length; i < len; i++) {
-                img = imgs.eq(i);
-                dataSrc = img.attr('data-src');
-                src = img.attr('src');
-                if (!dataSrc || dataSrc == src) continue;
-                this._loadImg(img, dataSrc);
-            }
-
-        },
-        // 获取设备号
-        getDeviceNum: function() {
-            var scope = this;
-
-            if (this.isMedlinkerApp) {
-                return;
-            }
-
-            _.requestHybrid({
-                tagname: 'getdevicenum',
-                callback: function(deviceNum) {
-                    scope.deviceNum = deviceNum;
-                }
-            });
-        },
-        openLink: function(url) {
-            _.requestHybrid({
-                tagname: 'openLink',
-                param: {
-                    url: url
-                }
-            });
-        },
-        _loadImg: function(img, dataSrc) {
-            $(new Image()).on('load', function() {
-                img.attr('src', dataSrc);
-            }).attr('src', dataSrc);
         }
     });
+
+    return {
+        /**
+         * 主要接收 自定义的方法和属性
+         * 通过覆盖 $init参数分别传递 vue 和 baseview各自的属性和方
+         * @param  {object} vue 和 baseview 相关的方法和属性 
+         * @return {object}
+         */
+        $extend: function(opts) {
+            var init = BindView.prototype.$init,
+                _vue = vueHooks.concat(vueProps);
+
+            var view = _.inherit(BindView, _.omit(opts, _vue));
+            view.prototype.$init = function() {
+                init.call(_.pick(opts, _vue), this);
+            }
+            return view;
+        },
+        class: BindView
+    }
 });

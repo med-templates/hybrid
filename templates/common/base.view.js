@@ -257,22 +257,6 @@ define([
                 }
             });
         },
-
-        // 支付订单
-        payOrder: function(payUrl) {
-            if (_.med.env.ylt && !_.med.env.medlinker) {
-                payUrl += '&redirectpage=webh5';
-                this.jump2(payUrl);
-            } else {
-                _.requestHybrid({
-                    tagname: 'oldpay',
-                    param: {
-                        orderurl: payUrl
-                    }
-                });
-            }
-        },
-
         openLink: function(url) {
             _.requestHybrid({
                 tagname: 'openLink',

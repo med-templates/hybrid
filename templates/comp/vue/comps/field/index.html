@@ -1,0 +1,4 @@
+<med-cell>
+    <input ref="input" class="m-field-control" @change="$emit('change', currentValue)" :placeholder="placeholder" :number="type === 'number'" :type="type" @focus="active = true" :disabled="disabled" :readonly="readonly" :value="currentValue" :max="max" @input="handleInput"
+    />
+</med-cell>

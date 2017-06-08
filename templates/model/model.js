@@ -5,11 +5,11 @@
  */
 
 define([
-    'AbstractModel', 'AbstractStore', 'UIScrollLayer', 'cUser', 'Store'
+    'AbstractModel', 'AbstractStore', 'cUser', 'Store'
 ], function(
-    AbstractModel, AbstractStore, UIScrollLayer, cUser, Store
+    AbstractModel, AbstractStore, cUser, Store
 ) {
-    
+
     var ERROR_CODE = {
         'NOT_LOGIN': '3',
         'NO_USER': '6000020',
@@ -120,75 +120,6 @@ define([
             if (data.errcode == ERROR_CODE['NOT_LOGIN'] || data.errcode == ERROR_CODE['NO_REG']) {
                 scope.openLogin();
                 return false;
-
-                //如果是未登录状态,则放弃所有其它请求
-                scope.abortAll();
-                //***BUG*** 不该这样做
-                window.APP.showToast(data.errmsg, function() {
-                    //登录处理先占位
-                    //window.APP.showLoading();
-                    cUser.login();
-
-                    return;
-                    //window.location.href = window.location.protocol + '//' + window.location.host + '/webapp/kq-desk/login.html';
-                });
-
-                return false;
-            }
-
-            // 医生未认证
-            if (data.errcode == ERROR_CODE['NOT_VERIFY']) {
-                APP.showConfirm({
-                    title: '友情提示',
-                    content: '当前账号未实名认证',
-                    btnNames: ['返回', '去认证'],
-                    cancelAction: function() {
-                        scope.back();
-                    },
-                    okAction: function() {
-                        _.nativeForward('/doctor/verify', {
-                            temp: 1
-                        }); //temp没有实际意义，由于没有参数ios跳转不会成功
-                    }
-                });
-
-                return false;
-            }
-
-            // 医生未认证
-            if (data.errcode == ERROR_CODE['DOCTOR_VERIFY_WAIT']) {
-                APP.showConfirm({
-                    title: '友情提示',
-                    content: '当前账号医生正在认证中，请耐心等待',
-                    btnNames: ['返回'],
-                    cancelAction: function() {
-                        scope.back();
-                    },
-                    okAction: function() {
-                        scope.back();
-                    }
-                });
-
-                return false;
-            }
-
-            // 医生未认证
-            if (data.errcode == ERROR_CODE['DOCTOR_VERIFY_FAIL']) {
-                APP.showConfirm({
-                    title: '友情提示',
-                    content: '当前账号医生认证失败',
-                    btnNames: ['返回', '重新认证'],
-                    cancelAction: function() {
-                        scope.back();
-                    },
-                    okAction: function() {
-                        _.nativeForward('/doctor/verify', {
-                            temp: 1
-                        }); //temp没有实际意义，由于没有参数ios跳转不会成功
-                    }
-                });
-
-                return false;
             }
 
             //用户不存在情况
@@ -205,7 +136,6 @@ define([
         dataformat: function(data) {
             if (_.isString(data)) data = JSON.parse(data);
             return data.data;
-            return data;
         },
 
         buildurl: function() {
@@ -361,33 +291,60 @@ define([
         });
     }
 
+    /**
+     * syntax sugar for model delcaration
+     * @param  {Object}     opts Model 参数
+     *       - url          model地址
+     *       - domain       model使用的域名
+     *       - fallthrough  出现错误时是否传递错误信息给原始调用
+     *       - shouldclear  是否清除用户数据
+     *       - cahce        缓存名称: Store 定义的实例
+     *       - app          添加app相关默认信息
+     *       - validation   数据验证，对错误码进行验证处理
+     * @return {Function}   接受表单参数 和 urlParam 的函数方法, 并返回实例对象
+     */
+    function makeModel(opts) {
+        var url = opts.url,
+            domain = opts.domain != undefined ? opts.domain : 1;
+
+        var model = _.inherit(BaseModel, {
+            propertys: function($super) {
+                $super();
+                this.url = apiorgin[domain] + url;
+                this.fallthrough = opts.fallthrough || false;
+                this.shouldClear = opts.shouldClear || false;
+                // 兼容 app 接口
+                this.defaultParam = opts.app ? _param : {};
+
+                if (opts.cache) {
+                    this.cacheData = Store[opts.cache] && Store[opts.cache].getInstance();
+                }
+
+                opts.validation && this.pushValidates(opts.validation);
+            }
+        })
+        var instance = model.getInstance();
+
+        return function(data, param, clear) {
+            if (clear && instance.cacheData) {
+                instance.cacheData.clearData();
+            }
+
+            if (param) {
+                instance.urlParam = param;
+            }
+
+            if (data) {
+                instance.setParam(data);
+            }
+            return instance;
+        }
+    }
+
     return {
         /**
          * userInfo
          */
-        UserInfo: _.inherit(BaseModel, {
-            propertys: function($super) {
-                $super();
-                this.url = apiorgin[1] + '/profile';
-                this.type = 'GET';
-            }
-        }),
-        //用户信息
-        UserModel: _.inherit(BaseModel, {
-            propertys: function($super) {
-                $super();
-                this.url = apiorgin[2] + '/rest/v1/h5/users/details/get';
-                this.defaultParam = _param;
-            }
-        }),
-
-        //站外用户信息
-        UserModel2: _.inherit(BaseModel, {
-            propertys: function($super) {
-                $super();
-                this.url = apiorgin[2] + '/rest/v1/h5/users/details/share';
-                this.defaultParam = _param;
-            }
-        })
+        UserInfo: makeModel({ url: '/profile' })
     };
 });
