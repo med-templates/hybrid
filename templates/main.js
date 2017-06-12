@@ -24,6 +24,7 @@
             ListView: project + 'common/list.view',
 
             CommonPath: project + 'common',
+            CompPath: project + 'comp',
             PagePath: project + 'pages',
 
             //所有样式所处地址
