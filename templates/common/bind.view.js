@@ -19,7 +19,7 @@ define([
 
     Vue.use(Plugin);
 
-    var vueHooks = ['beforeCreate', 'created', 'mounting', 'mounted', 'beforeDestroy', 'destroyed', "activated", "deactivated"];
+    var vueHooks = ['beforeCreate', 'created', 'mounting', 'mounted', 'beforeDestroy', 'destroyed', "activated", "deactivated", "watch"];
     var vueProps = ['template', 'data', 'components', 'methods', 'props', 'computed', 'filters', 'validations', 'directives'];
 
     var BindView = _.inherit(BaseView, {
