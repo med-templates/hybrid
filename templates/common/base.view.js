@@ -4,18 +4,18 @@ define([
     'Store',
     'UITabbar',
     'cUser'
-], function(AbstractView, Model, Store, UITabbar, cUser) {
+], function (AbstractView, Model, Store, UITabbar, cUser) {
 
     return _.inherit(AbstractView, {
 
-        propertys: function($super) {
+        propertys: function ($super) {
             $super();
             this.imgLazyLoad = true;
             //该页面是否需要登录鉴权
             this.needLogin = false;
             //登录后会返回用户数据
             this.USERINFO = {};
-            this.userInfoM = Model.UserInfo.getInstance();
+            this.userInfoM = Model.UserInfo();
 
             this.project = 'hybrid';
 
@@ -34,7 +34,7 @@ define([
         },
 
         // 给请求参数添加地理位置
-        setParamLatLng: function(param) {
+        setParamLatLng: function (param) {
             if (!param) {
                 param = {};
             }
@@ -50,7 +50,7 @@ define([
             return param;
         },
 
-        initHeader: function() {
+        initHeader: function () {
             if (this.noHeader) {
                 this.header.hide();
                 return;
@@ -77,11 +77,11 @@ define([
         },
 
         //当用户重新登录,或者退出登录时,摧毁用户信息
-        destoryUserInfo: function() {
+        destoryUserInfo: function () {
 
         },
 
-        setTitle: function(titleName) {
+        setTitle: function (titleName) {
             //document.title=titleName;
             //// hack在微信等webview中无法修改document.title的情况
             //var $iframe = $('<iframe src="/favicon.ico"></iframe>').on('load', function() {
@@ -90,7 +90,7 @@ define([
             //    }, 0)
             //}).appendTo($('body'));
         },
-        _show: function(noEvent) {
+        _show: function (noEvent) {
             if (noEvent) {
                 this.status = 'show';
                 this.$el.show();
@@ -108,14 +108,14 @@ define([
             // this.initHeader();
             this.trigger('onShow');
         },
-        show: function(noEvent) {
+        show: function (noEvent) {
             var scope = this;
             this.initHeader();
 
             //如果需要登录得先走登录逻辑校验
             if (this.needLogin) {
                 this.showLoading();
-                this.userInfoM.execute(function(data) {
+                this.userInfoM.execute(function (data) {
                     scope.USERINFO = data;
                     scope._show(noEvent);
                 });
@@ -130,7 +130,7 @@ define([
             this.addNativeRefreshEvent();
 
             // 图片加载失败
-            this.$('img').error(function() {
+            this.$('img').error(function () {
                 var realSrc = $(this).attr('data-real-src', $(this).attr('src'));
 
                 if ($(this).hasClass('avatar')) {
@@ -144,7 +144,7 @@ define([
                 //有些页面需要注册页面加载事件
                 _.requestHybrid({
                     tagname: 'onwebviewshow',
-                    callback: function() {
+                    callback: function () {
                         scope.onWebviewShow();
                     }
                 });
@@ -153,11 +153,11 @@ define([
         },
 
         //注册native的
-        onWebviewShow: function() {
+        onWebviewShow: function () {
 
         },
 
-        addNativeRefreshEvent: function() {
+        addNativeRefreshEvent: function () {
             if (!_.isHybrid() || !this.needHeaderRefresh) return;
             var scope = this;
 
@@ -169,7 +169,7 @@ define([
                     loosenText: '松手刷新...', // 松手提示文字（第二行）
                     refreshText: '刷新中...' // 刷新中提示文字（第二行）
                 },
-                callback: function(data) {
+                callback: function (data) {
 
                     if (_.isFunction(scope.refresh)) {
                         scope.refresh();
@@ -180,13 +180,13 @@ define([
             });
         },
 
-        hide: function($super, noEvent) {
+        hide: function ($super, noEvent) {
             $super();
             cUser.closeLogin && cUser.closeLogin();
             APP.tabbar && APP.tabbar.hide();
         },
 
-        viewImgLazyLoad: function() {
+        viewImgLazyLoad: function () {
             if (!this.imgLazyLoad) return;
 
             var imgs = this.$('img');
@@ -205,7 +205,7 @@ define([
 
         },
 
-        hasLogin: function(onHasLogin, onLoginSucess) {
+        hasLogin: function (onHasLogin, onLoginSucess) {
             var scope = this;
 
             if (!_.isEmpty(this.USERINFO)) {
@@ -216,17 +216,17 @@ define([
 
             this.showLoading();
             if (_.isFunction(onLoginSucess)) {
-                this.userInfoM.onLoginSuccess = function() {
+                this.userInfoM.onLoginSuccess = function () {
                     onLoginSucess();
 
                 };
             } else if (_.isFunction(onHasLogin)) {
-                this.userInfoM.onLoginSuccess = function() {
+                this.userInfoM.onLoginSuccess = function () {
                     onHasLogin();
                 };
             }
 
-            this.userInfoM.execute(function(data) {
+            this.userInfoM.execute(function (data) {
                 scope.USERINFO = data;
                 if (_.isFunction(onHasLogin)) {
                     onHasLogin();
@@ -236,14 +236,14 @@ define([
         },
 
         // 打点
-        addLog: function(source, target) {
+        addLog: function (source, target) {
             if (this.isMedlinkerApp) {
                 return;
             }
         },
 
         // 获取设备号
-        getDeviceNum: function() {
+        getDeviceNum: function () {
             var scope = this;
 
             if (this.isMedlinkerApp) {
@@ -252,12 +252,12 @@ define([
 
             _.requestHybrid({
                 tagname: 'getdevicenum',
-                callback: function(deviceNum) {
+                callback: function (deviceNum) {
                     scope.deviceNum = deviceNum;
                 }
             });
         },
-        openLink: function(url) {
+        openLink: function (url) {
             _.requestHybrid({
                 tagname: 'openLink',
                 param: {
@@ -266,8 +266,8 @@ define([
             });
         },
 
-        _loadImg: function(img, dataSrc) {
-            $(new Image()).on('load', function() {
+        _loadImg: function (img, dataSrc) {
+            $(new Image()).on('load', function () {
                 img.attr('src', dataSrc);
             }).attr('src', dataSrc);
         }
