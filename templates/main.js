@@ -36,8 +36,7 @@
             CommonUI: project + 'common/ui',
             CommonData: project + 'common/data',
 
-            CommonTpl: project + 'common/tpl',
-            Vue: project + "common/lib/vue.min"
+            CommonTpl: project + 'common/tpl'
         }
     });
 
@@ -50,7 +49,17 @@
         modules.push('UIHeader');
     }
 
-    modules.push("Vue");
+    $('document', 'input, textarea')
+        .on('focus', function(e) {
+            $('.cm-view .fixkeyboard').css('position', 'absolute');
+        })
+        .on('blur', function(e) {
+            $('.cm-view .fixkeyboard').css('position', 'fixed');
+            //force page redraw to fix incorrectly positioned fixed elements
+            setTimeout(function() {
+                window.scrollTo($.mobile.window.scrollLeft(), $.mobile.window.scrollTop());
+            }, 20);
+        });
 
     //t为用户期待在该时间后的用户，全部清理缓存再使用
     function initCacheSet(AbstractStore, t) {
